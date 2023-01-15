@@ -214,7 +214,6 @@ int main(void) {
     glfwSetCursorPosCallback(window, mouse_callback);
 
     while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -263,7 +262,9 @@ int main(void) {
         glBindVertexArray(0);
 
         camera.updateCameraPosition();
+
         glfwSwapBuffers(window);
+        glfwPollEvents();
     }
 
     glfwTerminate();
