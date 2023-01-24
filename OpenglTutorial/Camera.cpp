@@ -61,5 +61,11 @@ void Camera::updateCameraVectors() {
 }
 
 void Camera::updateCameraPosition() {
-	position += forward * speedZ * mouseSensitivityZ;
+	position += forward * speedZ * keySensitivityZ;
+	position += right * speedX * keySensitivityX;
+	position += up * speedY * keySensitivityY;
+
+	//pitch += 0.1f;
+	yaw += yaw_move_speed * 0.05f;
+	Camera::updateCameraVectors();
 }

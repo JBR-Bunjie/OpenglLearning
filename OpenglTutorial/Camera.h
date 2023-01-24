@@ -20,6 +20,10 @@ public:
 	float pitch;
 	float yaw;
 
+	float yaw_move_speed = 0;
+
+	float speedX = 0;
+	float speedY = 0;
 	float speedZ = 0;
 
 	//glm::mat4 view = glm::mat4(1.0f);
@@ -30,7 +34,11 @@ private:
 	void updateCameraVectors();
 
 	float mouseSensitivityX = 0.02f;
-	float mouseSensitivityY = 0.05f;
-	float mouseSensitivityZ = 0.01f;
+	float mouseSensitivityY = 0.02f;
+	float mouseSensitivityZ = 0.02f;
+
+	float keySensitivityX = 0.002f;
+	float keySensitivityY = 0.002f;
+	float keySensitivityZ = 0.003f;
 };
 

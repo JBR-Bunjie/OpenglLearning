@@ -24,6 +24,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -35,10 +38,15 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragmentShader.glsl" />
-    <Text Include="vertexShader.glsl" />
+    <Text Include="objectFragmentShader.glsl" />
+    <Text Include="objectVertexShader.glsl" />
+    <Text Include="lightFragmentShader.glsl" />
+    <Text Include="lightVertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="wall.jpg">
@@ -48,6 +56,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="container2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="container2_specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="matrix.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
