@@ -25,15 +25,17 @@ in vec2 Texcoord;
 
 out vec4 color;
 
-uniform vec3 lightPos;
+//uniform vec3 lightPos;
 uniform vec3 viewPos;
+
+uniform vec3 lightDir;
 
 void main()
 {
     vec3 ambient = material.ambient * light.ambient;
 
+    //vec3 lightDir = normalize(lightPos - FragPos);
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
     float diff = max(dot(norm, lightDir), 0.5f);
 //    vec3 diffuse = material.diffuse * diff * light.diffuse;
     vec3 diffuse = texture(material.diffuse, Texcoord).rgb * diff * max(light.diffuse, vec3(0.3f, 0.3f, 0.3f));

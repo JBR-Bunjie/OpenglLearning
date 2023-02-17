@@ -18,6 +18,8 @@
 #include "Camera.h"
 #include "Material.h"
 
+#include "lightDirectional.h"
+
 using std::string;
 
 #pragma region Model Data
@@ -90,8 +92,6 @@ float texture_mix_control = 0.2f;
 #pragma region Global Variables
 float lastX, lastY;
 bool firstMouse = true;
-
-glm::vec3 lightPos(0.5f, 0.5f, 1.0f);
 #pragma endregion
 
 #pragma region Function Declare
@@ -103,6 +103,10 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 #pragma region Camera Declare
 //Camera camera = Camera::Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 Camera camera = Camera::Camera(glm::vec3(0.3f, 0.5f, 3.0f), -15.0f, 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+#pragma endregion
+
+#pragma region Light Declare
+glm::vec3 lightPos(0.5f, 0.5f, -1.0f);
 #pragma endregion
 
 int main(void) {
@@ -218,48 +222,53 @@ int main(void) {
         // Calculate View And Projection Matrices Here
         view = camera.GetViewMatrix();
 
-        // Set Materials -> Shader Program -> OB
-        objectShader.Use();
-
-        // Use MVP
-        glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "project"), 1, GL_FALSE, glm::value_ptr(project));
-
         // Set trans Matrix
         glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.5f));
-        trans = glm::scale(trans, glm::vec3(0.5f));
-        glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+        for (int i = 0; i < 10; i++) {
+            // Set Materials -> Shader Program -> OB
+            objectShader.Use();
 
-        // Set Light Color
-        //lightColor.x = sin(glfwGetTime() * 2.0f);
-        //lightColor.y = sin(glfwGetTime() * 0.7f);
-        //lightColor.z = sin(glfwGetTime() * 1.3f);
-        //glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-        //glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+            // Use MVP
+            glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+            glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+            glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "project"), 1, GL_FALSE, glm::value_ptr(project));
 
-        GLint lightAmbientLoc = glGetUniformLocation(objectShader.Program, "light.ambient");
-        GLint lightDiffuseLoc = glGetUniformLocation(objectShader.Program, "light.diffuse");
-        GLint lightSpecularLoc = glGetUniformLocation(objectShader.Program, "light.specular");
-        glUniform3f(lightAmbientLoc, ambientColor.x, ambientColor.y, ambientColor.z);
-        glUniform3f(lightDiffuseLoc, diffuseColor.x, diffuseColor.y, diffuseColor.z);
-        glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
+            trans = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+            trans = glm::rotate(trans, glm::radians(20.0f * i), glm::vec3(0.0f, 1.0f, 1.0f));
+            trans = glm::scale(trans, glm::vec3(0.5f));
+            glUniformMatrix4fv(glGetUniformLocation(objectShader.Program, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
 
-        // Set LightPos
-        glUniform3f(glGetUniformLocation(objectShader.Program, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+            // Set Light Color
+            //lightColor.x = sin(glfwGetTime() * 2.0f);
+            //lightColor.y = sin(glfwGetTime() * 0.7f);
+            //lightColor.z = sin(glfwGetTime() * 1.3f);
+            //glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+            //glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
 
-        // Set Camera Pos
-        GLint viewPosLoc = glGetUniformLocation(objectShader.Program, "viewPos");
-        glUniform3f(viewPosLoc, camera.position.x, camera.position.y, camera.position.z);
+            GLint lightAmbientLoc = glGetUniformLocation(objectShader.Program, "light.ambient");
+            GLint lightDiffuseLoc = glGetUniformLocation(objectShader.Program, "light.diffuse");
+            GLint lightSpecularLoc = glGetUniformLocation(objectShader.Program, "light.specular");
+            glUniform3f(lightAmbientLoc, ambientColor.x, ambientColor.y, ambientColor.z);
+            glUniform3f(lightDiffuseLoc, diffuseColor.x, diffuseColor.y, diffuseColor.z);
+            glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
 
-        // apply material
-        objectMaterial.applyMaterial();
+            // Set LightPos
+            glUniform3f(glGetUniformLocation(objectShader.Program, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
-        // Draw & Call
-        glBindVertexArray(objectVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
+            // Set Camera Pos
+            GLint viewPosLoc = glGetUniformLocation(objectShader.Program, "viewPos");
+            glUniform3f(viewPosLoc, camera.position.x, camera.position.y, camera.position.z);
+
+            // apply material
+            objectMaterial.applyMaterial();
+
+            // Draw & Call
+            glBindVertexArray(objectVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glBindVertexArray(0);
+        }
+
+
 
         // Set Materials -> Shader Program -> LS
         lightShader.Use();

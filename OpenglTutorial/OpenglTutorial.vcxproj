@@ -136,13 +136,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicLight.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="LightDirectional.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicLight.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="LightDirectional.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
