@@ -1,7 +1,8 @@
-#include "LightDirectional.h"
+#include <iostream>
+using namespace std;
 
-int main2(void) {
-	LightDirectional light(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f));
-
+int main2()
+{
+	cout << typeid("Hello World") << endl;
 	return 0;
 }

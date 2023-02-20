@@ -19,7 +19,7 @@ void main()
 
     FragPos = vec3(model * transform * vec4(position, 1.0f));
 
-    Normal = mat3(transpose(inverse(model))) * normal;
+    Normal = mat3(transpose(inverse(model * transform))) * normal;
 
     Texcoord = texcoord;
 }

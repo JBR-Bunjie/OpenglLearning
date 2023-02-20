@@ -47,7 +47,7 @@ void Camera::processMouseMovement(float _deltaX, float _deltaY) {
 	//	yaw = -89.0f;
 
 
-	printf("%f, %f\n", pitch, yaw);
+	// printf("%f, %f\n", pitch, yaw);
 
 	Camera::updateCameraVectors();
 }
@@ -65,7 +65,6 @@ void Camera::updateCameraPosition() {
 	position += right * speedX * keySensitivityX;
 	position += up * speedY * keySensitivityY;
 
-	//pitch += 0.1f;
-	yaw += yaw_move_speed * 0.05f;
+	yaw += yaw_move_speed * yawMoveSensitivity;
 	Camera::updateCameraVectors();
 }

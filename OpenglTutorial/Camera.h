@@ -33,12 +33,14 @@ public:
 private:
 	void updateCameraVectors();
 
-	float mouseSensitivityX = 0.02f;
 	float mouseSensitivityY = 0.02f;
 	float mouseSensitivityZ = 0.02f;
+	float mouseSensitivityX = 0.02f;
 
-	float keySensitivityX = 0.002f;
-	float keySensitivityY = 0.002f;
-	float keySensitivityZ = 0.003f;
+	float keySensitivityX = 0.02f;
+	float keySensitivityY = 0.02f;
+	float keySensitivityZ = 0.03f;
+	
+	float yawMoveSensitivity = 0.3f;
 };
 

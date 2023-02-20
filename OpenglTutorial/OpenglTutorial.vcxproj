@@ -79,12 +79,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\m1518\source\repos\OpenglTutorial\glm-0.9.9.8\glm\glm;C:\Users\m1518\source\repos\OpenglTutorial\glfw-3.3.8.bin.WIN32\include;C:\Users\m1518\source\repos\OpenglTutorial\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Project\OpenglTutorial\glm-0.9.9.8\glm\glm;E:\Project\OpenglTutorial\glfw-3.3.8.bin.WIN32\include;E:\Project\OpenglTutorial\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\m1518\source\repos\OpenglTutorial\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\m1518\source\repos\OpenglTutorial\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\Project\OpenglTutorial\glfw-3.3.8.bin.WIN32\lib-vc2022;E:\Project\OpenglTutorial\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -110,12 +110,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\m1518\source\repos\OpenglTutorial\glfw-3.3.8.bin.WIN32\include;C:\Users\m1518\source\repos\OpenglTutorial\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Project\OpenglTutorial\glm-0.9.9.8\glm\glm;E:\Project\OpenglTutorial\glfw-3.3.8.bin.WIN32\include;E:\Project\OpenglTutorial\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\m1518\source\repos\OpenglTutorial\glew-2.1.0\lib\Release\Win32;C:\Users\m1518\source\repos\OpenglTutorial\glfw-3.3.8.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\Project\OpenglTutorial\glew-2.1.0\lib\Release\Win32;E:\Project\OpenglTutorial\glfw-3.3.8.bin.WIN32\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -142,7 +142,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicLight.h" />
@@ -165,6 +164,9 @@
     <Image Include="container2_specular.png" />
     <Image Include="matrix.jpg" />
     <Image Include="wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

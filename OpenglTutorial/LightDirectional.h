@@ -6,15 +6,16 @@
 
 #include "BasicLight.h"
 
-class LightDirectional : public BasicLight{
+class LightDirectional : public BasicLight {
 public:
-	LightDirectional(glm::vec3 _lightPos, glm::vec3 _lightAmbient, glm::vec3 _lightDiffuse, glm::vec3 _lightSpecular);
-	~LightDirectional();
+    LightDirectional(glm::vec3 _lightPos, glm::vec3 _lightAmbient, glm::vec3 _lightDiffuse, glm::vec3 _lightSpecular);
+    ~LightDirectional();
 
-	void updateDirection();
+    void updateColor(glm::vec3 _lightAmbient, glm::vec3 _lightDiffuse, glm::vec3 _lightSpecular);
+
+    void applyLightProperties();
 private:
-	// Direction
-	glm::vec3 lightDirection;
-	// Angle
-	glm::vec3 lightAngle;
+    glm::vec3 lightDir;
+    std::string lightDirName = "lightDir";
+    void applyLightDirProperties();
 };

@@ -1,4 +1,6 @@
-﻿#ifndef SHADER_H
+﻿#pragma once
+
+#ifndef SHADER_H
 #define SHADER_H
 
 #include <iostream>
@@ -10,7 +12,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#pragma once
 class Shader {
 public:
 	// program ID - 程序ID

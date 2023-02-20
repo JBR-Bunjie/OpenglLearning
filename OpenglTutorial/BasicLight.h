@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef BasicLight_
+#define BasicLight_
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -10,30 +13,35 @@
 #include <string>
 
 
-class BasicLight
-{
+class BasicLight {
 public:
-	// Position
-	// we use lightPos - origin, then the result is just the lightDir that we want.
-	glm::vec3 lightPos;
+    // Position
+    // we use lightPos - origin, then the result is just the lightDir that we want.
+    glm::vec3 lightPos;
+    std::string lightPosName = "lightPos";
 
-	// Color
-	// we still need the three value to set the light
-	glm::vec3 lightAmbient;
-	glm::vec3 lightDiffuse;
-	glm::vec3 lightSpecular;
+    // Color
+    // we still need the three value to set the light
+    glm::vec3 lightAmbient;
+    std::string ambientPropertyName = ".ambient";
+    glm::vec3 lightDiffuse;
+    std::string diffusePropertyName = ".diffuse";
+    glm::vec3 lightSpecular;
+    std::string specularPropertyName = ".specular";
 
-	GLuint program;
-	
-	std::string lightName;
+    GLuint program;
+    
+    std::string lightName;
 
-	BasicLight(glm::vec3, glm::vec3, glm::vec3, glm::vec3);
-	~BasicLight();
+    BasicLight(glm::vec3, glm::vec3, glm::vec3, glm::vec3);
+    ~BasicLight();
 
-	void updateDirection();
+    void updateDirection();
 
-	void setProgram(GLuint _program, const GLchar* _lightName);
+    void setProgram(GLuint _program, const GLchar* _lightName);
 
-	void applyLightProperties();
+    void applyLightColorProperties();
+    void applyLightPosProperties();
 };
 
+#endif
