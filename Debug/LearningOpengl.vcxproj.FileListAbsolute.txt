@@ -1,0 +1,3 @@
+C:\Users\m1518\Documents\Projects\LearningOpengl\Debug\LearningOpengl.exe
+C:\Users\m1518\Documents\Projects\LearningOpengl\Debug\LearningOpengl.vcxproj.CopyComplete
+C:\Users\m1518\Documents\Projects\LearningOpengl\Debug\glfw3.dll

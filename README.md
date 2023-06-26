@@ -1,1 +1,0 @@
-# OpenglTutorial Root Folder
