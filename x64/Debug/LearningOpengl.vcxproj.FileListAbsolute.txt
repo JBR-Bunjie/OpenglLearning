@@ -1,3 +1,0 @@
-C:\Users\m1518\Documents\Projects\LearningOpengl\x64\Debug\LearningOpengl.exe
-C:\Users\m1518\Documents\Projects\LearningOpengl\x64\Debug\LearningOpengl.vcxproj.CopyComplete
-C:\Users\m1518\Documents\Projects\LearningOpengl\x64\Debug\glfw3.dll
