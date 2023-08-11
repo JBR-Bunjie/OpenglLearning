@@ -18,13 +18,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Source\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Header\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="Shader\fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shader\vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

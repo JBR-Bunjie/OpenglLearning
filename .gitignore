@@ -31,6 +31,11 @@
 *.out
 *.app
 
+# IDE's files
 .vs/
-Debug/
-x64/
+.idea/
+
+# Outputs
+[Dd]ebug/
+[Xx]64/
+[Xx]86/
