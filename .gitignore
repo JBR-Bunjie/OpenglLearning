@@ -24,7 +24,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -39,3 +38,8 @@
 [Dd]ebug/
 [Xx]64/
 [Xx]86/
+
+# dependences' raw zips
+glew-2.1.0-win32.zip
+glfw-3.3.8.bin.WIN32.zip
+glm-0.9.8.5.zip
