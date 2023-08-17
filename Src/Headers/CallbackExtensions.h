@@ -14,6 +14,10 @@ double mouseXpos;
 double mouseYpos;
 double scrollXoffset;
 double scrollYoffset;
+float deltaTime = 0.0f;
+float lastTime = 0.0f;
+// float targetFrameRate = 60.0f;
+
 static class CallbackExtensions {
 public:
     // CallbackExtensions();
