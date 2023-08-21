@@ -84,14 +84,22 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3( 0.0f,  0.0f, -3.0f)
 };
 
-const char* BoxVertexShaderSource = "Src\\Shaders\\BoxVertex.glsl";
-const char* BoxFragmentShaderSource = "Src\\Shaders\\BoxFragment.glsl";
-const char* LightVertexShaderSource = "Src\\Shaders\\LightVertex.glsl";
-const char* LightFragmentShaderSource = "Src\\Shaders\\LightFragment.glsl";
+const char *BoxVertexShaderSource = "Src\\Shaders\\BoxVertex.glsl";
+const char *BoxFragmentShaderSource = "Src\\Shaders\\BoxFragment.glsl";
+const char *LightVertexShaderSource = "Src\\Shaders\\LightVertex.glsl";
+const char *LightFragmentShaderSource = "Src\\Shaders\\LightFragment.glsl";
+// const char *NanosuitVertexShaderSource = "Src\\Shaders\\NanosuitVertex.glsl";
+// const char *NanosuitFragmentShaderSource = "Src\\Shaders\\NanosuitFragment.glsl";
+const char *NanosuitVertexShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitVertex.glsl";
+const char *NanosuitFragmentShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitFragment.glsl";
 
-const char* wallTexSource = "Resources\\Textures\\wall.jpg";
-const char* containerTexSource = "Resources\\Textures\\container.jpg";
-const char* faceTexSource = "Resources\\Textures\\awesomeface.png";
-const char* container2TexSource = "Resources\\Textures\\container2.png";
-const char* container2SpecTexSource = "Resources\\Textures\\container2_specular.png";
+const char *wallTexSource = "Resources\\Textures\\wall.jpg";
+const char *containerTexSource = "Resources\\Textures\\container.jpg";
+const char *faceTexSource = "Resources\\Textures\\awesomeface.png";
+const char *container2TexSource = "Resources\\Textures\\container2.png";
+const char *container2SpecTexSource = "Resources\\Textures\\container2_specular.png";
+
+// const char *NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
+const char *NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";
+const char *BackpackModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\backpack\\backpack.obj";
 #endif

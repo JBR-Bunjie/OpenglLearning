@@ -24,7 +24,7 @@ public:
     glm::vec3 cameraRight;
     glm::vec3 worldUp;
     
-    float fov;
+    float fov = 45.0f;
     // fov is a component of projection matrix, cot(fov / 2) / aspect = mat11
     // take unity as an example:
     //      float t = unity_CameraProjection._m11;

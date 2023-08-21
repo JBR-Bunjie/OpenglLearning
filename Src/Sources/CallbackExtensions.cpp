@@ -11,13 +11,13 @@ void CallbackExtensions::FramebufferSizeCallback(GLFWwindow* window, int width, 
 }
 
 void CallbackExtensions::MouseCallback(GLFWwindow* window, double xpos_input, double ypos_input) {
-    std::cout << "Mouse Triggered" << std::endl;
+    // std::cout << "Mouse Triggered" << std::endl;
     mouseXpos = xpos_input;
     mouseYpos = ypos_input;
 }
 
 void CallbackExtensions::ScrollCallback(GLFWwindow* window, double xoffset_input, double yoffset_input) {
-    std::cout << "Scroll Triggered" << yoffset_input << std::endl;
+    // std::cout << "Scroll Triggered" << yoffset_input << std::endl;
     scrollXoffset = xoffset_input;
     scrollYoffset = yoffset_input;
 }
@@ -60,5 +60,6 @@ void CallbackExtensions::ProcessInput(GLFWwindow* window, Camera &camera) {
         camera.fov = 1.0f;
     if(camera.fov >= 45.0f)
         camera.fov = 45.0f;
-    std::cout << "fov changed: " << camera.fov << std::endl;
+    // std::cout << "fov changed: " << camera.fov << std::endl;
+    // cout << "camera pos: " << camera.cameraPos.x << ", " << camera.cameraPos.y << ", " << camera.cameraPos.z << endl;
 }

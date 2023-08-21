@@ -8,8 +8,6 @@ out vec4 FragColor;
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
-//    vec3 diffuse;
-//    vec3 specular;
     float shininess;
 };
 
@@ -50,7 +48,6 @@ struct SpotLight {
 
 uniform Material material;
 uniform DirectionalLight directionalLight;
-//int a = 4;
 uniform PointLight pointLight[4];
 uniform SpotLight spotLight;
 
@@ -107,12 +104,7 @@ void main() {
         diffuse += baseTex.rgb * spotLight.diffuse * max(dot(N, L), 0.0f) * intensity * attenuation;
         specular += specularTex.rgb * spotLight.specular * pow(max(dot(H, L), 0.0), material.shininess) * intensity * attenuation;
     } 
-//    else {
-//        // 否则，使用环境光，让场景在聚光之外时不至于完全黑暗
-//        ambient += baseTex.rgb * spotLight.ambient;
-//    }
     
-//    result = ambient + diffuse;
     result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
 }
