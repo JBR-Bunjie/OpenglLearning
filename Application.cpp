@@ -52,15 +52,8 @@ int main() {
     glViewport(0, 0, initialViewportWidth, initialViewportHeight);
 #pragma endregion
 
-#pragma region State And Variables Defination
-    // Opengl Settings
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    // glCullFace(GL_FRONT);
-    // glCullFace(GL_BACK);
-    // glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-
+#pragma region Data Defination
+    /* Game Components */
     // Components Init
     Camera mainCamera;
     mainCamera.mouseSensitivity = 0.05f;
@@ -71,37 +64,7 @@ int main() {
     mainCamera.cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // 
     mainCamera.worldUp = glm::vec3(0.0f, 1.0f, 0.0f); // 
 
-    Light mainLight;
-    mainLight.lightType = LightType::Directional;
-    mainLight.position = glm::vec3(1.2f, 1.0f, 2.0f);
-    mainLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
-    // mainLight.lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-    // mainLight.lightStrength = 1.0f;
-    
-    // Light additionalPointLights[4];
-    // additionalPointLights[0].lightType = LightType::Point;
-    // additionalPointLights[0].position = pointLightPositions[0];
-    // additionalPointLights[1].lightType = LightType::Point;
-    // additionalPointLights[1].position = pointLightPositions[1];
-    // additionalPointLights[2].lightType = LightType::Point;
-    // additionalPointLights[2].position = pointLightPositions[2];
-    // additionalPointLights[3].lightType = LightType::Point;
-    // additionalPointLights[3].position = pointLightPositions[3];
-    //
-    // Light additionalSpotLight;
-    // additionalSpotLight.lightType = LightType::Spot;
-    // additionalSpotLight.position = mainCamera.cameraPos;
-    // additionalSpotLight.direction = mainCamera.cameraFront;
-    // additionalSpotLight.cutOff = glm::cos(glm::radians(12.5f));
-    // additionalSpotLight.outerCutOff = glm::cos(glm::radians(15.0f));
-
-    
-    Model nanosuit(NanosuitModelSource);
-    // Model backpack(BackpackModelSource);
-    
-    // Shader LightShader(LightVertexShaderSource, LightFragmentShaderSource);
-    Shader NanosuitShader(NanosuitVertexShaderSource, NanosuitFragmentShaderSource);
-
+    /* Matrices Setup */
     // 0. model matrix part
     glm::mat4 model;
 
@@ -111,9 +74,60 @@ int main() {
     // 2. projection matrix part
     glm::mat4 proj;
     proj = glm::perspective(glm::radians(mainCamera.fov), (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 100.0f);
+
+
+    /* Buffer Data */
+    // cube VAO
+    unsigned int cubeVAO, cubeVBO;
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &cubeVBO);
+    glBindVertexArray(cubeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glBindVertexArray(0);
+    
+    // plane VAO
+    unsigned int planeVAO, planeVBO;
+    glGenVertexArrays(1, &planeVAO);
+    glGenBuffers(1, &planeVBO);
+    glBindVertexArray(planeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glBindVertexArray(0);
+    
+    /* Textures */
+    unsigned int cubeTexture = RegisterTexture(cubeTexSource);
+    unsigned int floorTexture = RegisterTexture(floorTexSource);
+
+    /* Shader */
+    Shader shader(stencilTestVertexShaderSource, stencilTestFragmentShaderSource);
+    Shader shaderSingleColor(stencilTestVertexShaderSource, stencilSingleColorFragmentShaderSource);
 #pragma endregion
 
-#pragma region Register Callback Function
+#pragma region State Defination
+    /* Opengl Settings */
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // glCullFace(GL_FRONT);
+    // glCullFace(GL_BACK);
+    // glEnable(GL_CULL_FACE);
+    // Depth:
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    // Stencil:
+    glEnable(GL_STENCIL_TEST);
+    // glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // It should be specified for every object. So I just comment this line out.
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); // to be honest, this one should be specified just like the above one. But in this case, it suit for every case.
+
+    /* Register Callback */
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetFramebufferSizeCallback(window, CallbackExtensions::FramebufferSizeCallback);
     // glfwSetCursorEnterCallback(window, CallbackExtensions::CursorEnterCallback);
@@ -123,17 +137,25 @@ int main() {
 
 #pragma region Render Loop
     while (!glfwWindowShouldClose(window)) {
-        // 输入
+        // per-frame time logic
+        // --------------------
+        float currentTime = glfwGetTime();
+        deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        mainCamera.frameDeltaTime = deltaTime;
+
+        // input
+        // -----
         CallbackExtensions::ProcessInput(window, mainCamera);
-
         
-        // 渲染指令
+        // render
+        // ------
         GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
-        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT))
-
+        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT))
+        
         // Refresh View and Proj Matrix which suit for nearly every object
+        shaderSingleColor.use();
         model = glm::mat4(1.0f);
-
         glm::vec3 front;
         front.x = cos(glm::radians(mainCamera.yaw)) * cos(glm::radians(mainCamera.pitch));
         front.y = sin(glm::radians(mainCamera.pitch));
@@ -143,53 +165,80 @@ int main() {
 
         proj = glm::perspective(glm::radians(mainCamera.fov),
                                 (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 100.0f);
+        
+        shaderSingleColor.setMat4("view", view);
+        shaderSingleColor.setMat4("proj", proj);
+        
+        shader.use();
+        shader.setMat4("view", view);
+        shader.setMat4("proj", proj);
 
-        // -1. Time Check
-        float currentTime = glfwGetTime();
-        deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-        mainCamera.frameDeltaTime = deltaTime;
+        // 前提1：我们已经设置好了glStencilOp为(KEEP, KEEP, REPLACE)，并且这之后都没有变过
+        // 前提2：我们已经设置好了glStencilFunc为(GL_NOTEQUAL, 1, 0xFF)
+        // 此时，模板缓冲全为0
         
+        // Plane的渲染，模板无关，先渲染，并且使用遮罩防止它修改模板缓冲
+        glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        glStencilMask(0x00);
+        glBindVertexArray(planeVAO);
+        glBindTexture(GL_TEXTURE_2D, floorTexture);
+        shader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 
-        GLCall(NanosuitShader.use())
-        GLCall(NanosuitShader.setMat4("model", model))
-        GLCall(NanosuitShader.setMat4("view", view))
-        GLCall(NanosuitShader.setMat4("proj", proj))
-        GLCall(nanosuit.Draw(NanosuitShader))
-        // GLCall(backpack.Draw(NanosuitShader))
-        
-        
-        // // 1. Light
-        // // Light - Bind Shader and VAO
-        // GLCall(LightShader.use())
-        // GLCall(glBindVertexArray(LightVAO[0]))
-        //
-        // // Light - Draw&Call Loop
-        // for (int i = 0; i < 4; i++) {
-        //     // Light - Refresh Matrix
-        //     model = glm::mat4(1.0f);
-        //     model = glm::translate(model, additionalPointLights[i].position);
-        //     model = glm::scale(model, glm::vec3(0.2f));
-        //
-        //     // Light - inject uniform data
-        //     LightShader.setMat4("model", model);
-        //     LightShader.setMat4("view", view);
-        //     LightShader.setMat4("proj", proj);
-        //
-        //     // Light - draw&call
-        //     glDrawArrays(GL_TRIANGLES, 0, 36);
-        // }
+        // 此时模板缓冲应该仍然全为0，开始修改Func与Mask，现在，在Cube对应位置的模板缓冲应该为1
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+        glBindVertexArray(cubeVAO);
+        glBindTexture(GL_TEXTURE_2D, cubeTexture);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+        shader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+        shader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // 我们将Func修改为(GL_NOTEQUAL, 1, 0xFF)，并且使用的Mask为0x00防止写入(应该没必要,So I comment it out)
+        // 只有模板缓冲中值不为1的部分才能通过，并且不会影响已有的模板缓冲，不然会被REPLACE(根据没有修改过的Op)
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        // glStencilMask(0x00);
+        glDisable(GL_DEPTH_TEST); //这里关闭了深度缓冲是另一个有意思的点，这样做是因为我们不想让立方体的边框被地板的边框遮挡
+        shaderSingleColor.use();
+        float scale = 1.1f;
+        // cubes
+        glBindVertexArray(cubeVAO);
+        glBindTexture(GL_TEXTURE_2D, cubeTexture);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        shaderSingleColor.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        shaderSingleColor.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(0);
+
+
+        // Re-Init
+        glStencilMask(0xFF);
+        glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        glEnable(GL_DEPTH_TEST);
 
         // Loop Final. 检查并调用事件，交换缓冲
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
 #pragma endregion
-
-    // glDeleteBuffers(1, VBO);
-    // glDeleteVertexArrays(1, BoxVAO);
-    // LightShader.close();
-    NanosuitShader.close();
+    glDeleteBuffers(1, &cubeVBO);
+    glDeleteBuffers(1, &planeVBO);
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteVertexArrays(1, &planeVAO);
+    shader.close();
+    shaderSingleColor.close();
     glfwTerminate();
     return 0;
 }
