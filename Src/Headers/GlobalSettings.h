@@ -60,59 +60,116 @@ float vertices[] = {
 };
 
 float cubeVertices[] = {
-    // positions          // texture Coords
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    // Back face
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // Bottom-left
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, // bottom-right         
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // bottom-left
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+    // Front face
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, // top-right
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, // top-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left
+    // Left face
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-right
+    // Right face
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right         
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // bottom-right
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // top-left
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-left     
+    // Bottom face
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, // top-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, // bottom-left
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, // bottom-right
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, // top-right
+    // Top face
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, // top-right     
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, // bottom-right
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // top-left
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f  // bottom-left        
 };
 
 float planeVertices[] = {
-    // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
-     5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-    -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
-    -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+     // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
+     5.0f, -0.5f,  5.0f,  2.0f, 0.0f, // Origin: 1
+    -5.0f, -0.5f, -5.0f,  0.0f, 2.0f, // Origin: 3
+    -5.0f, -0.5f,  5.0f,  0.0f, 0.0f, // Origin: 2
 
-     5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-    -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-     5.0f, -0.5f, -5.0f,  2.0f, 2.0f								
+     5.0f, -0.5f,  5.0f,  2.0f, 0.0f, // Origin: 4
+     5.0f, -0.5f, -5.0f,  2.0f, 2.0f, // Origin: 6
+    -5.0f, -0.5f, -5.0f,  0.0f, 2.0f // Origin: 5
+    // PLEASE! PAY ATTENTION TO THE FINAL ",". It will cause additional vertex to be generated. Which cause a big problem!
+};
+
+float quadVertices[] = {  
+ // positions   // texCoords
+ -1.0f,  1.0f,  0.0f, 1.0f,
+ -1.0f, -1.0f,  0.0f, 0.0f,
+  1.0f, -1.0f,  1.0f, 0.0f,
+
+ -1.0f,  1.0f,  0.0f, 1.0f,
+  1.0f, -1.0f,  1.0f, 0.0f,
+  1.0f,  1.0f,  1.0f, 1.0f
+};
+
+float skyboxVertices[] = {
+ // positions          
+ -1.0f,  1.0f, -1.0f,
+ -1.0f, -1.0f, -1.0f,
+  1.0f, -1.0f, -1.0f,
+  1.0f, -1.0f, -1.0f,
+  1.0f,  1.0f, -1.0f,
+ -1.0f,  1.0f, -1.0f,
+
+ -1.0f, -1.0f,  1.0f,
+ -1.0f, -1.0f, -1.0f,
+ -1.0f,  1.0f, -1.0f,
+ -1.0f,  1.0f, -1.0f,
+ -1.0f,  1.0f,  1.0f,
+ -1.0f, -1.0f,  1.0f,
+
+  1.0f, -1.0f, -1.0f,
+  1.0f, -1.0f,  1.0f,
+  1.0f,  1.0f,  1.0f,
+  1.0f,  1.0f,  1.0f,
+  1.0f,  1.0f, -1.0f,
+  1.0f, -1.0f, -1.0f,
+
+ -1.0f, -1.0f,  1.0f,
+ -1.0f,  1.0f,  1.0f,
+  1.0f,  1.0f,  1.0f,
+  1.0f,  1.0f,  1.0f,
+  1.0f, -1.0f,  1.0f,
+ -1.0f, -1.0f,  1.0f,
+
+ -1.0f,  1.0f, -1.0f,
+  1.0f,  1.0f, -1.0f,
+  1.0f,  1.0f,  1.0f,
+  1.0f,  1.0f,  1.0f,
+ -1.0f,  1.0f,  1.0f,
+ -1.0f,  1.0f, -1.0f,
+
+ -1.0f, -1.0f, -1.0f,
+ -1.0f, -1.0f,  1.0f,
+  1.0f, -1.0f, -1.0f,
+  1.0f, -1.0f, -1.0f,
+ -1.0f, -1.0f,  1.0f,
+  1.0f, -1.0f,  1.0f
 };
 
 glm::vec3 cubePositions[] = {
@@ -140,25 +197,36 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3( 0.0f,  0.0f, -3.0f)
 };
 
-const char *BoxVertexShaderSource = "Src\\Shaders\\BoxVertex.glsl";
-const char *BoxFragmentShaderSource = "Src\\Shaders\\BoxFragment.glsl";
-const char *LightVertexShaderSource = "Src\\Shaders\\LightVertex.glsl";
-const char *LightFragmentShaderSource = "Src\\Shaders\\LightFragment.glsl";
-// const char *NanosuitVertexShaderSource = "Src\\Shaders\\NanosuitVertex.glsl";
-// const char *NanosuitFragmentShaderSource = "Src\\Shaders\\NanosuitFragment.glsl";
-const char *NanosuitVertexShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitVertex.glsl";
-const char *NanosuitFragmentShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitFragment.glsl";
-const char *stencilTestVertexShaderSource = "Src\\Shaders\\stencil_testing_vert.glsl";
-const char *stencilTestFragmentShaderSource = "Src\\Shaders\\stencil_testing_frag.glsl";
-const char *stencilSingleColorFragmentShaderSource = "Src\\Shaders\\stencil_single_color_frag.glsl";
+const char* BoxVertexShaderSource = "Src\\Shaders\\BoxVertex.glsl";
+const char* BoxFragmentShaderSource = "Src\\Shaders\\BoxFragment.glsl";
+const char* LightVertexShaderSource = "Src\\Shaders\\LightVertex.glsl";
+const char* LightFragmentShaderSource = "Src\\Shaders\\LightFragment.glsl";
+// const char* NanosuitVertexShaderSource = "Src\\Shaders\\NanosuitVertex.glsl";
+// const char* NanosuitFragmentShaderSource = "Src\\Shaders\\NanosuitFragment.glsl";
+const char* NanosuitVertexShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitVertex.glsl";
+const char* NanosuitFragmentShaderSource = "E:\\Project\\Engine\\JustTest\\Src\\Shaders\\NanosuitFragment.glsl";
+const char* stencilTestVertexShaderSource = "Src\\Shaders\\stencil_testing_vert.glsl";
+const char* stencilTestFragmentShaderSource = "Src\\Shaders\\stencil_testing_frag.glsl";
+const char* stencilSingleColorFragmentShaderSource = "Src\\Shaders\\stencil_single_color_frag.glsl";
+const char* offscreenVertexShaderSource = "Src\\Shaders\\offscreenVertex.glsl";
+const char* offscreenFragmentShaderSource = "Src\\Shaders\\offscreenFragment.glsl";
 
-const char *wallTexSource = "Resources\\Textures\\wall.jpg";
-const char *containerTexSource = "Resources\\Textures\\container.jpg";
-const char *faceTexSource = "Resources\\Textures\\awesomeface.png";
-const char *container2TexSource = "Resources\\Textures\\container2.png";
+const char* wallTexSource = "Resources\\Textures\\wall.jpg";
+const char* containerTexSource = "Resources\\Textures\\container.jpg";
+const char* faceTexSource = "Resources\\Textures\\awesomeface.png";
+const char* container2TexSource = "Resources\\Textures\\container2.png";
 const char* container2SpecTexSource = "Resources\\Textures\\container2_specular.png";
 const char* cubeTexSource = "Resources\\Textures\\marble.jpg";
 const char* floorTexSource = "Resources\\Textures\\metal.png";
+const char* windowTesSource = "Resources\\Textures\\window.png";
+const char* grassTesSource = "Resources\\Textures\\grass.png";
+
+const char* skyboxTexbackSource = "Resources\\Textures\\skybox\\back.jpg";
+const char* skyboxTexfrontSource = "Resources\\Textures\\skybox\\front.jpg";
+const char* skyboxTexleftSource = "Resources\\Textures\\skybox\\left.jpg";
+const char* skyboxTexrightSource = "Resources\\Textures\\skybox\\right.jpg";
+const char* skyboxTextopSource = "Resources\\Textures\\skybox\\top.jpg";
+const char* skyboxTexbottomSource = "Resources\\Textures\\skybox\\bottom.jpg";
 
 // const char *NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
 const char *NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";

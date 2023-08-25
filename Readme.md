@@ -14,6 +14,13 @@ This repository is used to record the learning progress and thoughts of opengl.
 
 
 ## Period:
-- 2022.10.20 ~ 2023.8.22
+- 2022.10.20 ~ 2023.8.23
 
 ## Progress:
+
+- Chapter 1. Finished 
+  - 1.1. Hello Window:
+  - 1.2. Hello Triangle:
+- Chapter 2. Finished:
+- Chapter 3. Finished:
+- Chapter 4. Working in Progress.

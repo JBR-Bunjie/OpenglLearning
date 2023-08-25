@@ -103,22 +103,67 @@ int main() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glBindVertexArray(0);
     
+    // screen quad VAO
+    unsigned int quadVAO, quadVBO;
+    glGenVertexArrays(1, &quadVAO);
+    glGenBuffers(1, &quadVBO);
+    glBindVertexArray(quadVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+    // framebuffer configuration
+    // -------------------------
+    unsigned int framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    // create a color attachment texture
+    unsigned int textureColorbuffer;
+    glGenTextures(1, &textureColorbuffer);
+    glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, initialViewportWidth, initialViewportHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+    // create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+    unsigned int rbo;
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, initialViewportWidth, initialViewportHeight); // use a single renderbuffer object for both a depth AND stencil buffer.
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+    // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
     /* Textures */
-    unsigned int cubeTexture = RegisterTexture(cubeTexSource);
+    unsigned int cubeTexture = RegisterTexture(containerTexSource);
     unsigned int floorTexture = RegisterTexture(floorTexSource);
 
     /* Shader */
     Shader shader(stencilTestVertexShaderSource, stencilTestFragmentShaderSource);
     Shader shaderSingleColor(stencilTestVertexShaderSource, stencilSingleColorFragmentShaderSource);
+    Shader screenShader(offscreenVertexShaderSource, offscreenFragmentShaderSource);
+    
+    shader.use();
+    shader.setInt("texture1", 0);
+    screenShader.use();
+    screenShader.setInt("screenTexture", 0);
 #pragma endregion
 
 #pragma region State Defination
     /* Opengl Settings */
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // Drawing Type:
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // Face Culling:
     // glCullFace(GL_FRONT);
-    // glCullFace(GL_BACK);
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     // Depth:
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -148,11 +193,6 @@ int main() {
         // -----
         CallbackExtensions::ProcessInput(window, mainCamera);
         
-        // render
-        // ------
-        GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
-        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT))
-        
         // Refresh View and Proj Matrix which suit for nearly every object
         shaderSingleColor.use();
         model = glm::mat4(1.0f);
@@ -173,15 +213,19 @@ int main() {
         shader.setMat4("view", view);
         shader.setMat4("proj", proj);
 
-        // 前提1：我们已经设置好了glStencilOp为(KEEP, KEEP, REPLACE)，并且这之后都没有变过
-        // 前提2：我们已经设置好了glStencilFunc为(GL_NOTEQUAL, 1, 0xFF)
-        // 此时，模板缓冲全为0
+        // 第一处理阶段(Pass)
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        // render
+        // ------
+        GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
+        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT))
         
         // Plane的渲染，模板无关，先渲染，并且使用遮罩防止它修改模板缓冲
         glStencilFunc(GL_ALWAYS, 0, 0xFF);
         glStencilMask(0x00);
         glBindVertexArray(planeVAO);
         glBindTexture(GL_TEXTURE_2D, floorTexture);
+        model = glm::mat4(1.0f);
         shader.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
@@ -221,13 +265,25 @@ int main() {
         shaderSingleColor.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
-
+        
+        // 第二处理阶段
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
+        GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
+        GLCall(glClear(GL_COLOR_BUFFER_BIT))
+        
+        screenShader.use();  
+        glBindVertexArray(quadVAO);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_STENCIL_TEST);
+        glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+        glDrawArrays(GL_TRIANGLES, 0, 6);  
 
         // Re-Init
         glStencilMask(0xFF);
         glStencilFunc(GL_ALWAYS, 0, 0xFF);
         glEnable(GL_DEPTH_TEST);
-
+        glEnable(GL_STENCIL_TEST);
+        
         // Loop Final. 检查并调用事件，交换缓冲
         glfwPollEvents();
         glfwSwapBuffers(window);
