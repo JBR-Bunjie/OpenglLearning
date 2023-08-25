@@ -127,6 +127,52 @@ float quadVertices[] = {
   1.0f,  1.0f,  1.0f, 1.0f
 };
 
+
+float cubeVForSkybox[] = {
+ -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+  0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+  0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+  0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+ -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+ -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+
+ -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+  0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+  0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+  0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+ -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+ -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+ -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+ -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+ -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+ -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+ -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+ -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+  0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+  0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+  0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+  0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+  0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+  0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+ -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+  0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+  0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+  0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+ -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+ -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+ -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+  0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+ -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+ -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+};
+
+
 float skyboxVertices[] = {
  // positions          
  -1.0f,  1.0f, -1.0f,
@@ -196,6 +242,10 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3(-4.0f,  2.0f, -12.0f),
     glm::vec3( 0.0f,  0.0f, -3.0f)
 };
+// For Swizzling
+// x y z w ==
+// r g b a ==
+// s t p q;
 
 const char* BoxVertexShaderSource = "Src\\Shaders\\BoxVertex.glsl";
 const char* BoxFragmentShaderSource = "Src\\Shaders\\BoxFragment.glsl";
@@ -210,6 +260,10 @@ const char* stencilTestFragmentShaderSource = "Src\\Shaders\\stencil_testing_fra
 const char* stencilSingleColorFragmentShaderSource = "Src\\Shaders\\stencil_single_color_frag.glsl";
 const char* offscreenVertexShaderSource = "Src\\Shaders\\offscreenVertex.glsl";
 const char* offscreenFragmentShaderSource = "Src\\Shaders\\offscreenFragment.glsl";
+const char* skyboxVertexShaderSource = "Src\\Shaders\\skyboxVertex.glsl";
+const char* skyboxFragmentShaderSource = "Src\\Shaders\\skyboxFragment.glsl";
+const char* box_skyboxVertexShaderSource = "Src\\Shaders\\box_skyboxVertex.glsl";
+const char* box_skyboxFragmentShaderSource = "Src\\Shaders\\box_skyboxFragment.glsl";
 
 const char* wallTexSource = "Resources\\Textures\\wall.jpg";
 const char* containerTexSource = "Resources\\Textures\\container.jpg";
