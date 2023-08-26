@@ -101,11 +101,15 @@ int main() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glBindVertexArray(0);
 
+    unsigned int ubo;
+    glGenBuffers(1, &ubo);
+    glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+    glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
     /* Shader */
     Shader shader(box_skyboxVertexShaderSource, box_skyboxFragmentShaderSource);
     Shader skyboxShader(skyboxVertexShaderSource, skyboxFragmentShaderSource);
-
     
     /* Texture */
     vector<std::string> faces {
@@ -123,6 +127,14 @@ int main() {
     shader.setInt("skybox", 0);
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
+
+    unsigned int uniformBlockIndexSkybox = glGetUniformBlockIndex(shader.ID, "Matrices");
+    unsigned int uniformBlockIndexBox = glGetUniformBlockIndex(skyboxShader.ID, "Matrices");
+    glUniformBlockBinding(shader.ID, uniformBlockIndexSkybox, 0);
+    glUniformBlockBinding(skyboxShader.ID, uniformBlockIndexBox, 0);
+
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
+    
 #pragma endregion
 
 #pragma region State Defination
@@ -174,8 +186,12 @@ int main() {
         mainCamera.cameraFront = glm::normalize(front);
         view = glm::lookAt(mainCamera.cameraPos, mainCamera.cameraPos + mainCamera.cameraFront, mainCamera.cameraUp);
 
-        proj = glm::perspective(glm::radians(mainCamera.fov),
-                                (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 100.0f);
+        proj = glm::perspective(glm::radians(mainCamera.fov), (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 100.0f);
+
+        glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(view));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(proj));
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
         
         // render
         // ------
