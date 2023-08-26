@@ -106,11 +106,30 @@ int main() {
     glBindBuffer(GL_UNIFORM_BUFFER, ubo);
     glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+
+    // unsigned int geometryShaderExampleAO, geometryShaderExampleBO;
+    // glGenVertexArrays(1, &geometryShaderExampleAO);
+    // glGenBuffers(1, &geometryShaderExampleBO);
+    // glBindVertexArray(geometryShaderExampleAO);
+    // glBindBuffer(GL_ARRAY_BUFFER, geometryShaderExampleBO);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
+    // glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    // glEnableVertexAttribArray(1);
+    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+    // glBindVertexArray(0);
     
     /* Shader */
     Shader shader(box_skyboxVertexShaderSource, box_skyboxFragmentShaderSource);
     Shader skyboxShader(skyboxVertexShaderSource, skyboxFragmentShaderSource);
+    // Shader GeometryExampleShader(GeometryShaderVertexShaderSource, GeometryShaderFragmentShaderSource, GeometryShaderGeometryShaderSource);
+    Shader shaderWithoutGeometryStage(NanosuitVertexShaderSource, NanosuitFragmentShaderSource);
+    Shader shaderWithGeometryStage(GeometryVisualizedNormalVertexShaderSource, GeometryVisualizedNormalFragmentShaderSource, GeometryVisualizedNormalGeometryShaderSource);
     
+    
+    Model nanosuit(NanosuitModelSource);
+
     /* Texture */
     vector<std::string> faces {
         skyboxTexrightSource,
@@ -130,8 +149,10 @@ int main() {
 
     unsigned int uniformBlockIndexSkybox = glGetUniformBlockIndex(shader.ID, "Matrices");
     unsigned int uniformBlockIndexBox = glGetUniformBlockIndex(skyboxShader.ID, "Matrices");
+    unsigned int uniformBlockIndexNanosuit = glGetUniformBlockIndex(shaderWithoutGeometryStage.ID, "Matrices");
     glUniformBlockBinding(shader.ID, uniformBlockIndexSkybox, 0);
     glUniformBlockBinding(skyboxShader.ID, uniformBlockIndexBox, 0);
+    glUniformBlockBinding(shaderWithoutGeometryStage.ID, uniformBlockIndexNanosuit, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
     
@@ -198,27 +219,42 @@ int main() {
         GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
         GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT))
         
-        
-        // draw scene as normal
-        shader.use();
-        shader.setMat4("model", model);
-        shader.setMat4("view", view);
-        shader.setMat4("proj", proj);
-        shader.setVec3("cameraPos", mainCamera.cameraPos);
-        // cubes
-        glBindVertexArray(cubeVAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
+        // // draw scene as normal
+        // shader.use();
+        // shader.setMat4("model", model);
+        // shader.setMat4("view", view);
+        // shader.setMat4("proj", proj);
+        // shader.setVec3("cameraPos", mainCamera.cameraPos);
+        // // cubes
+        // glBindVertexArray(cubeVAO);
+        // glActiveTexture(GL_TEXTURE0);
+        // glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
+        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        // glBindVertexArray(0);
+
+        // GeometryExampleShader.use();
+        // glBindVertexArray(geometryShaderExampleAO);
+        // glDrawArrays(GL_POINTS, 0, 4);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.5f));
+        model = glm::scale(model, glm::vec3(0.2f));
+        shaderWithoutGeometryStage.use();
+        shaderWithoutGeometryStage.setMat4("model", model);
+        nanosuit.Draw(shaderWithoutGeometryStage);
+        shaderWithGeometryStage.use();
+        shaderWithGeometryStage.setMat4("model", model);
+        shaderWithGeometryStage.setMat4("view", view);
+        shaderWithGeometryStage.setMat4("proj", proj);
+        nanosuit.Draw(shaderWithGeometryStage);
 
         // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         // glDisable(GL_CULL_FACE);
         skyboxShader.use();
-        view = glm::mat4(glm::mat3(view)); // remove translation from the view matrix
-        skyboxShader.setMat4("view", view);
-        skyboxShader.setMat4("proj", proj);
+        // view = glm::mat4(glm::mat3(view)); // remove translation from the view matrix
+        // skyboxShader.setMat4("view", view);
+        // skyboxShader.setMat4("proj", proj);
         // skybox cube
         glBindVertexArray(skyboxVAO);
         glActiveTexture(GL_TEXTURE0);

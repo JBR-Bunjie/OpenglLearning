@@ -242,6 +242,15 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3(-4.0f,  2.0f, -12.0f),
     glm::vec3( 0.0f,  0.0f, -3.0f)
 };
+
+float points[] = {
+ -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // 左上
+  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // 右上
+  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 右下
+ -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // 左下
+};
+
+    
 // For Swizzling
 // x y z w ==
 // r g b a ==
@@ -264,6 +273,15 @@ const char* skyboxVertexShaderSource = "Src\\Shaders\\skyboxVertex.glsl";
 const char* skyboxFragmentShaderSource = "Src\\Shaders\\skyboxFragment.glsl";
 const char* box_skyboxVertexShaderSource = "Src\\Shaders\\box_skyboxVertex.glsl";
 const char* box_skyboxFragmentShaderSource = "Src\\Shaders\\box_skyboxFragment.glsl";
+const char* GeometryShaderVertexShaderSource = "Src\\Shaders\\GeometryShaderVertex.glsl";
+const char* GeometryShaderFragmentShaderSource = "Src\\Shaders\\GeometryShaderFragment.glsl";
+const char* GeometryShaderGeometryShaderSource = "Src\\Shaders\\GeometryShaderGeometry.glsl";
+const char* GeometryVisualizedNormalVertexShaderSource = "Src\\Shaders\\GeometryVisualizedNormalVertex.glsl";
+const char* GeometryVisualizedNormalFragmentShaderSource = "Src\\Shaders\\GeometryVisualizedNormalFragment.glsl";
+const char* GeometryVisualizedNormalGeometryShaderSource = "Src\\Shaders\\GeometryVisualizedNormalGeometry.glsl";
+// const char* InstancingVertexShaderSource = "Src\\Shaders\\InstancingVertex.glsl";
+// const char* InstancingFragmentShaderSource = "Src\\Shaders\\InstancingFragment.glsl";
+// const char* InstancingGeometryShaderSource = "Src\\Shaders\\InstancingGeometry.glsl";
 
 const char* wallTexSource = "Resources\\Textures\\wall.jpg";
 const char* containerTexSource = "Resources\\Textures\\container.jpg";
@@ -282,7 +300,7 @@ const char* skyboxTexrightSource = "Resources\\Textures\\skybox\\right.jpg";
 const char* skyboxTextopSource = "Resources\\Textures\\skybox\\top.jpg";
 const char* skyboxTexbottomSource = "Resources\\Textures\\skybox\\bottom.jpg";
 
-// const char *NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
-const char *NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";
+const char *NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
+// const char *NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";
 const char *BackpackModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\backpack\\backpack.obj";
 #endif

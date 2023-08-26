@@ -17,7 +17,7 @@ public:
     unsigned int ID;
 
     // 构造器读取并构建着色器
-    Shader(const char* vertexPath, const char* fragmentPath);
+    Shader(const char* vertexPath = nullptr, const char* fragmentPath = nullptr, const char* geometryPath = nullptr);
 
     // 使用/激活程序
     void use();
@@ -32,6 +32,14 @@ public:
     void setVec3(const std::string& name, glm::vec3 value) const;
     void setMat4(const std::string& name, glm::mat4 value) const;
 private:
+    enum ShaderType {
+        VertexShader,
+        FragmentShader,
+        GeometryShader,
+        ComputeShader
+    };
+    
     void checkCompileErrors(unsigned int shader, std::string type);
+    unsigned int compileShader(const char* path, ShaderType shaderType = VertexShader);
 };
 #endif

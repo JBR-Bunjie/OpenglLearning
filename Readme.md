@@ -14,7 +14,7 @@ This repository is used to record the learning progress and thoughts of opengl.
 
 
 ## Period:
-- 2022.10.20 ~ 2023.8.23
+- 2022.10.20 ~ 2023.8.26
 
 ## Progress:
 
