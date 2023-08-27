@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 using std::string;
 using std::vector;
@@ -59,7 +60,7 @@ int main() {
     mainCamera.mouseSensitivity = 0.05f;
     mainCamera.targetMovingSpeed = 2.5f;
     mainCamera.fov = 45.0f;
-    mainCamera.cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    mainCamera.cameraPos = glm::vec3(0.0f, 0.0f, 155.0f);
     mainCamera.cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     mainCamera.cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // 
     mainCamera.worldUp = glm::vec3(0.0f, 1.0f, 0.0f); // 
@@ -87,48 +88,64 @@ int main() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glBindVertexArray(0);
-    
-    // cube VAO
-    unsigned int cubeVAO, cubeVBO;
-    glGenVertexArrays(1, &cubeVAO);
-    glGenBuffers(1, &cubeVBO);
-    glBindVertexArray(cubeVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVForSkybox), &cubeVForSkybox, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glBindVertexArray(0);
 
+    // unsigned int InstancePlanetVAO, InstancePlanetVBO;
+    // glGenVertexArrays(1, &InstancePlanetVAO);
+    // glGenBuffers(1, &InstancePlanetVBO);
+    // glBindVertexArray(InstancePlanetVAO);
+    // glBindBuffer(GL_ARRAY_BUFFER, InstancePlanetVBO);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+    // glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    // glEnableVertexAttribArray(1);
+    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    // glBindVertexArray(0);
+    // 
+    // glm::vec2 translations[100];
+    // int index = 0;
+    // float offset = 0.1f;
+    // for(int y = -10; y < 10; y += 2) {
+    //     for(int x = -10; x < 10; x += 2) {
+    //         glm::vec2 translation;
+    //         translation.x = (float)x / 10.0f + offset;
+    //         translation.y = (float)y / 10.0f + offset;
+    //         translations[index++] = translation;
+    //     }
+    // }
+    // unsigned int instanceOffsetVBO;
+    // glGenBuffers(1, &instanceOffsetVBO);
+    // glBindVertexArray(InstancePlanetVAO);
+    // glBindBuffer(GL_ARRAY_BUFFER, instanceOffsetVBO);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 100, &translations[0], GL_STATIC_DRAW);
+    // glEnableVertexAttribArray(2);
+    // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    // glVertexAttribDivisor(2, 1);
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // // instancePlanetShader.use();
+    // // for(unsigned int i = 0; i < 100; i++) {
+    // //     std::stringstream ss;
+    // //     string index;
+    // //     ss << i;
+    // //     index = ss.str();
+    // //     instancePlanetShader.setVec2(("offsets[" + index + "]").c_str(), translations[i]);
+    // // }
+
+
+    /* Model */
+    Model PlanetModel(PlanetModelSource);
+    Model RockModel(RockModelSource);
+
+    
     unsigned int ubo;
     glGenBuffers(1, &ubo);
     glBindBuffer(GL_UNIFORM_BUFFER, ubo);
     glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-
-    // unsigned int geometryShaderExampleAO, geometryShaderExampleBO;
-    // glGenVertexArrays(1, &geometryShaderExampleAO);
-    // glGenBuffers(1, &geometryShaderExampleBO);
-    // glBindVertexArray(geometryShaderExampleAO);
-    // glBindBuffer(GL_ARRAY_BUFFER, geometryShaderExampleBO);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    // glEnableVertexAttribArray(1);
-    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-    // glBindVertexArray(0);
-    
     /* Shader */
-    Shader shader(box_skyboxVertexShaderSource, box_skyboxFragmentShaderSource);
     Shader skyboxShader(skyboxVertexShaderSource, skyboxFragmentShaderSource);
-    // Shader GeometryExampleShader(GeometryShaderVertexShaderSource, GeometryShaderFragmentShaderSource, GeometryShaderGeometryShaderSource);
-    Shader shaderWithoutGeometryStage(NanosuitVertexShaderSource, NanosuitFragmentShaderSource);
-    Shader shaderWithGeometryStage(GeometryVisualizedNormalVertexShaderSource, GeometryVisualizedNormalFragmentShaderSource, GeometryVisualizedNormalGeometryShaderSource);
-    
-    
-    Model nanosuit(NanosuitModelSource);
+    Shader instancePlanetShader(InstancePlanetVertexShaderSource, InstancePlanetFragmentShaderSource);
+    Shader instanceAsteroidShader(InstanceAsteroidVertexShaderSource, InstanceAsteroidFragmentShaderSource);
 
     /* Texture */
     vector<std::string> faces {
@@ -141,21 +158,81 @@ int main() {
     };
 
     unsigned int skyboxTexture = loadCubemap(faces);
-    
-    shader.use();
-    shader.setInt("skybox", 0);
+
+        
+
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
 
-    unsigned int uniformBlockIndexSkybox = glGetUniformBlockIndex(shader.ID, "Matrices");
-    unsigned int uniformBlockIndexBox = glGetUniformBlockIndex(skyboxShader.ID, "Matrices");
-    unsigned int uniformBlockIndexNanosuit = glGetUniformBlockIndex(shaderWithoutGeometryStage.ID, "Matrices");
-    glUniformBlockBinding(shader.ID, uniformBlockIndexSkybox, 0);
-    glUniformBlockBinding(skyboxShader.ID, uniformBlockIndexBox, 0);
-    glUniformBlockBinding(shaderWithoutGeometryStage.ID, uniformBlockIndexNanosuit, 0);
+    unsigned int uniformBlockIndexSkybox = glGetUniformBlockIndex(skyboxShader.ID, "Matrices");
+    glUniformBlockBinding(skyboxShader.ID, uniformBlockIndexSkybox, 0);
 
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
-    
+
+    // generate a large list of semi-random model transformation matrices
+    // ------------------------------------------------------------------
+    unsigned int amount = 100000;
+    glm::mat4* modelMatrices;
+    modelMatrices = new glm::mat4[amount];
+    srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
+    float radius = 150.0;
+    float offset = 25.0f;
+    for (unsigned int i = 0; i < amount; i++) {
+        glm::mat4 model = glm::mat4(1.0f);
+        // 1. translation: displace along circle with 'radius' in range [-offset, offset]
+        float angle = (float)i / (float)amount * 360.0f;
+        float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float x = sin(angle) * radius + displacement;
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float y = displacement * 0.4f; // keep height of asteroid field smaller compared to width of x and z
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float z = cos(angle) * radius + displacement;
+        model = glm::translate(model, glm::vec3(x, y, z));
+
+        // 2. scale: Scale between 0.05 and 0.25f
+        float scale = static_cast<float>((rand() % 20) / 100.0 + 0.05);
+        model = glm::scale(model, glm::vec3(scale));
+
+        // 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
+        float rotAngle = static_cast<float>((rand() % 360));
+        model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+        // 4. now add to list of matrices
+        modelMatrices[i] = model;
+    }
+
+    // configure instanced array
+    // -------------------------
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, amount * sizeof(glm::mat4), &modelMatrices[0], GL_STATIC_DRAW);
+
+    // set transformation matrices as an instance vertex attribute (with divisor 1)
+    // note: we're cheating a little by taking the, now publicly declared, VAO of the model's mesh(es) and adding new vertexAttribPointers
+    // normally you'd want to do this in a more organized fashion, but for learning purposes this will do.
+    // -----------------------------------------------------------------------------------------------------------------------------------
+    for (unsigned int i = 0; i < RockModel.meshes.size(); i++) {
+        unsigned int VAO = RockModel.meshes[i].VAO;
+        glBindVertexArray(VAO);
+        // set attribute pointers for matrix (4 times vec4)
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+        glVertexAttribDivisor(6, 1);
+
+        glBindVertexArray(0);
+    }
+
 #pragma endregion
 
 #pragma region State Defination
@@ -199,7 +276,6 @@ int main() {
         
         // Refresh View and Proj Matrix which suit for nearly every object
 
-        model = glm::mat4(1.0f);
         glm::vec3 front;
         front.x = cos(glm::radians(mainCamera.yaw)) * cos(glm::radians(mainCamera.pitch));
         front.y = sin(glm::radians(mainCamera.pitch));
@@ -207,7 +283,7 @@ int main() {
         mainCamera.cameraFront = glm::normalize(front);
         view = glm::lookAt(mainCamera.cameraPos, mainCamera.cameraPos + mainCamera.cameraFront, mainCamera.cameraUp);
 
-        proj = glm::perspective(glm::radians(mainCamera.fov), (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 100.0f);
+        proj = glm::perspective(glm::radians(mainCamera.fov), (float)initialViewportWidth / (float)initialViewportHeight, 0.1f, 300.0f);
 
         glBindBuffer(GL_UNIFORM_BUFFER, ubo);
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(view));
@@ -219,51 +295,32 @@ int main() {
         GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f))
         GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT))
         
-        // // draw scene as normal
-        // shader.use();
-        // shader.setMat4("model", model);
-        // shader.setMat4("view", view);
-        // shader.setMat4("proj", proj);
-        // shader.setVec3("cameraPos", mainCamera.cameraPos);
-        // // cubes
-        // glBindVertexArray(cubeVAO);
-        // glActiveTexture(GL_TEXTURE0);
-        // glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        // draw planet
+        // instancePlanetShader.use();
+        // glBindVertexArray(InstancePlanetVAO);
+        // glDrawArraysInstanced(GL_TRIANGLES, 0, 36, 100);
         // glBindVertexArray(0);
-
-        // GeometryExampleShader.use();
-        // glBindVertexArray(geometryShaderExampleAO);
-        // glDrawArrays(GL_POINTS, 0, 4);
-
+        // 绘制行星
+        instancePlanetShader.use();
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.5f));
-        model = glm::scale(model, glm::vec3(0.2f));
-        shaderWithoutGeometryStage.use();
-        shaderWithoutGeometryStage.setMat4("model", model);
-        nanosuit.Draw(shaderWithoutGeometryStage);
-        shaderWithGeometryStage.use();
-        shaderWithGeometryStage.setMat4("model", model);
-        shaderWithGeometryStage.setMat4("view", view);
-        shaderWithGeometryStage.setMat4("proj", proj);
-        nanosuit.Draw(shaderWithGeometryStage);
+        model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+        instancePlanetShader.setMat4("model", model);
+        instancePlanetShader.setMat4("view", view);
+        instancePlanetShader.setMat4("proj", proj);
+        PlanetModel.Draw(instancePlanetShader);
+        // 绘制小行星
+        instanceAsteroidShader.use();
+        instanceAsteroidShader.setMat4("view", view);
+        instanceAsteroidShader.setMat4("proj", proj);
+        // PlanetModel.Draw(instancePlanetShader);
+        for(unsigned int i = 0; i < RockModel.meshes.size(); i++) {
+            glBindVertexArray(RockModel.meshes[i].VAO);
+            glDrawElementsInstanced(
+                GL_TRIANGLES, RockModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, amount
+            );
+        }
 
-        // draw skybox as last
-        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-        // glDisable(GL_CULL_FACE);
-        skyboxShader.use();
-        // view = glm::mat4(glm::mat3(view)); // remove translation from the view matrix
-        // skyboxShader.setMat4("view", view);
-        // skyboxShader.setMat4("proj", proj);
-        // skybox cube
-        glBindVertexArray(skyboxVAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
-        glDepthFunc(GL_LESS); // set depth function back to default
-
-        
         // Loop Final. 检查并调用事件，交换缓冲
         glfwPollEvents();
         glfwSwapBuffers(window);

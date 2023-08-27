@@ -10,8 +10,8 @@ class Model {
 public:
     void Draw(Shader shaderProgram);
     Model(const char *path);
-private: 
     std::vector<Mesh> meshes;
+private: 
     string directory;
     std::vector<Texture> textures_loaded;
     void loadModel(string path);

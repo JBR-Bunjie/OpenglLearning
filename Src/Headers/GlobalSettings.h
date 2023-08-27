@@ -116,16 +116,16 @@ float planeVertices[] = {
     // PLEASE! PAY ATTENTION TO THE FINAL ",". It will cause additional vertex to be generated. Which cause a big problem!
 };
 
-float quadVertices[] = {  
- // positions   // texCoords
- -1.0f,  1.0f,  0.0f, 1.0f,
- -1.0f, -1.0f,  0.0f, 0.0f,
-  1.0f, -1.0f,  1.0f, 0.0f,
+float quadVertices[] = {
+ // 位置          // 颜色
+ -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+  0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+ -0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
 
- -1.0f,  1.0f,  0.0f, 1.0f,
-  1.0f, -1.0f,  1.0f, 0.0f,
-  1.0f,  1.0f,  1.0f, 1.0f
-};
+ -0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+  0.05f, -0.05f,  0.0f, 1.0f, 0.0f,   
+  0.05f,  0.05f,  0.0f, 1.0f, 1.0f                   
+};  
 
 
 float cubeVForSkybox[] = {
@@ -279,9 +279,10 @@ const char* GeometryShaderGeometryShaderSource = "Src\\Shaders\\GeometryShaderGe
 const char* GeometryVisualizedNormalVertexShaderSource = "Src\\Shaders\\GeometryVisualizedNormalVertex.glsl";
 const char* GeometryVisualizedNormalFragmentShaderSource = "Src\\Shaders\\GeometryVisualizedNormalFragment.glsl";
 const char* GeometryVisualizedNormalGeometryShaderSource = "Src\\Shaders\\GeometryVisualizedNormalGeometry.glsl";
-// const char* InstancingVertexShaderSource = "Src\\Shaders\\InstancingVertex.glsl";
-// const char* InstancingFragmentShaderSource = "Src\\Shaders\\InstancingFragment.glsl";
-// const char* InstancingGeometryShaderSource = "Src\\Shaders\\InstancingGeometry.glsl";
+const char* InstancePlanetVertexShaderSource = "Src\\Shaders\\InstancePlanetVertex.glsl";
+const char* InstancePlanetFragmentShaderSource = "Src\\Shaders\\InstancePlanetFragment.glsl";
+const char* InstanceAsteroidVertexShaderSource = "Src\\Shaders\\InstanceAsteroidVertex.glsl";
+const char* InstanceAsteroidFragmentShaderSource = "Src\\Shaders\\InstanceAsteroidFragment.glsl";
 
 const char* wallTexSource = "Resources\\Textures\\wall.jpg";
 const char* containerTexSource = "Resources\\Textures\\container.jpg";
@@ -300,7 +301,10 @@ const char* skyboxTexrightSource = "Resources\\Textures\\skybox\\right.jpg";
 const char* skyboxTextopSource = "Resources\\Textures\\skybox\\top.jpg";
 const char* skyboxTexbottomSource = "Resources\\Textures\\skybox\\bottom.jpg";
 
-const char *NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
-// const char *NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";
-const char *BackpackModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\backpack\\backpack.obj";
+const char* NanosuitModelSource = "Resources\\Models\\nanosuit\\nanosuit.obj";
+// const char* NanosuitModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\nanosuit\\nanosuit.obj";
+const char* BackpackModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\backpack\\backpack.obj";
+const char* PlanetModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\planet\\planet.obj";
+const char* RockModelSource = "E:\\Project\\Engine\\JustTest\\Resources\\Models\\rock\\rock.obj";
+
 #endif
