@@ -31,6 +31,8 @@ public:
     //      const float Rad2Deg = 180 / UNITY_PI;
     //      float fov = atan( 1.0f / t ) * 2.0 * Rad2Deg;
     // we will recover this content later to contrust a projection matrix by ourselves
+    float near = 0.1f;
+    float far = 100.0f;
 
     float frameDeltaTime;
     
@@ -39,7 +41,7 @@ public:
     float movingSpeed;
     float targetMovingSpeed;
     
-    glm::mat4 GetViewMatrix();
+    glm::mat4 getViewMatrix();
     void RefreshMovingSpeed();
     void ProcessMouseMovement(float xoffset, float yoffset);
     void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
