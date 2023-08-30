@@ -94,8 +94,20 @@ int main() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // // 可以看到这里的贴图取样设置中，环绕方式设置成了GL_REPEAT
+    // // 这意味着，当我们超出这个区域时，我们会重复之前的深度值——这很有可能造成不应该存在的阴影
+    // // 在我们的案例中表现为：光照有一个区域，超出该区域就成为了阴影，而这个区域实际上代表着深度贴图的大小，因为这个贴图投影到了地板上。
+    // // 我们宁可让所有超出深度贴图的坐标的深度范围是1.0，这样超出的坐标将永远不在阴影之中。
+    // // 我们可以储存一个边框颜色，然后把深度贴图的纹理环绕选项设置为GL_CLAMP_TO_BORDER
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+    // 当然，这样子是不足以解决所有的问题的。除了阴影贴图本身的大小等因素外，导致区域外呈现阴影还有很多原因
+    // 比如：渲染物体的坐标超出了光的正交视锥的远平面等（这里采用了Learn上面的做法，直接对超限坐标设shadow = 0
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
@@ -163,6 +175,7 @@ int main() {
         glm::mat4 lightSpaceMatrix = proj * view;
         shadowMapGenerateShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
         renderScene(shadowMapGenerateShader);
+        
 
         // Pass 2: Normal Pass
         // -------------------
