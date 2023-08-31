@@ -52,7 +52,7 @@ unsigned int Shader::compileShader(const char* path, ShaderType shaderType) {
         // 转换数据流到string
         rawCode = shaderStream.str();
     } catch (std::ifstream::failure e) {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ; PATH: " << path << std::endl;
     }
 
     const char* shaderCode = rawCode.c_str();

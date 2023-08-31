@@ -59,6 +59,12 @@ const char* ShadowMap_Directional_Generate_Vertex = "Src\\Shaders\\ShadowMap_Dir
 const char* ShadowMap_Directional_Generate_Fragment = "Src\\Shaders\\ShadowMap_Directional_Generate_Fragment.glsl";
 const char* ShadowMap_Directional_Apply_Vertex = "Src\\Shaders\\ShadowMap_Directional_Apply_Vertex.glsl";
 const char* ShadowMap_Directional_Apply_Fragment = "Src\\Shaders\\ShadowMap_Directional_Apply_Fragment.glsl";
+const char* ShadowMap_Point_Generate_Vertex = "Src\\Shaders\\ShadowMap_Point_Generate_Vertex.glsl";
+const char* ShadowMap_Point_Generate_Fragment = "Src\\Shaders\\ShadowMap_Point_Generate_Fragment.glsl";
+const char* ShadowMap_Point_Generate_Geometry = "Src\\Shaders\\ShadowMap_Point_Generate_Geometry.glsl";
+const char* ShadowMap_Point_Apply_Vertex = "Src\\Shaders\\ShadowMap_Point_Apply_Vertex.glsl";
+const char* ShadowMap_Point_Apply_Fragment = "Src\\Shaders\\ShadowMap_Point_Apply_Fragment.glsl";
+
 
 const char* wallTexSource = "Resources\\Textures\\wall.jpg";
 const char* containerTexSource = "Resources\\Textures\\container.jpg";
